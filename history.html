@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Notification History</title>
+
+    <style>
+
+        body {
+
+            font-family: Arial;
+            padding: 30px;
+
+        }
+
+        table {
+
+            width: 100%;
+            border-collapse: collapse;
+
+        }
+
+        th, td {
+
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+
+        }
+
+        th {
+
+            background: #f0f0f0;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Notification History</h1>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Email</th>
+                <th>Message</th>
+                <th>Status</th>
+                <th>Created At</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="tableBody">
+
+        </tbody>
+
+    </table>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+    <script>
+
+        const SUPABASE_URL =
+        "https://bpyxxrihbgevpwtnyqbv.supabase.co";
+
+        const SUPABASE_KEY =
+        "sb_publishable_XJfWpcdH4EupuZPw1mY3lA_1M2xRiec";
+
+        const client =
+        supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+        async function loadNotifications() {
+
+            const { data, error } =
+            await client
+            .from("notifications")
+            .select("*")
+            .order("created_at", {
+                ascending: false
+            });
+
+            const tableBody =
+            document.getElementById(
+                "tableBody"
+            );
+
+            data.forEach(notification => {
+
+                const row = `
+
+                    <tr>
+
+                        <td>${notification.email}</td>
+
+                        <td>${notification.message}</td>
+
+                        <td>${notification.status}</td>
+
+                        <td>${notification.created_at}</td>
+
+                    </tr>
+
+                `;
+
+                tableBody.innerHTML += row;
+
+            });
+
+        }
+
+        loadNotifications();
+
+    </script>
+
+</body>
+
+</html>

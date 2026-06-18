@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Notification System</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="hero">
+
+            <div class="logo">☁️</div>
+
+            <h1>Cloud Notification System</h1>
+
+            <p class="subtitle">
+                Send real-time notifications instantly and track delivery status seamlessly.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="form-group">
+                <label>Recipient Email</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="recipient@example.com">
+            </div>
+
+            <div class="form-group">
+                <label>Notification Message</label>
+
+                <textarea
+                    id="message"
+                    placeholder="Enter your notification message..."></textarea>
+            </div>
+
+            <button onclick="sendNotification()">
+                Send Notification
+            </button>
+
+            <a href="history.html" class="history-link">
+                View Notification History →
+            </a>
+
+        </div>
+
+        <div class="footer">
+            <span>☁️ Serverless</span>
+            <span>•</span>
+            <span>📧 Email Alerts</span>
+            <span>•</span>
+            <span>📊 Tracking</span>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
