@@ -1,6 +1,8 @@
-const SUPABASE_URL ="https://bpyxxrihbgevpwtnyqbv.supabase.co";
+const SUPABASE_URL =
+"https://bpyxxrihbgevpwtnyqbv.supabase.co";
 
-const SUPABASE_KEY ="sb_publishable_XJfWpcdH4EupuZPw1mY3lA_1M2xRiec";
+const SUPABASE_KEY =
+"sb_publishable_XJfWpcdH4EupuZPw1mY3lA_1M2xRiec";
 
 const client =
 supabase.createClient(
@@ -11,15 +13,25 @@ supabase.createClient(
 emailjs.init(
     "EDmhVfv_cN5tj9W9Y"
 );
+
 async function sendNotification() {
 
     const email =
-    document.getElementById("email").value;
+    document.getElementById("email").value.trim();
 
     const message =
-    document.getElementById("message").value;
+    document.getElementById("message").value.trim();
 
-    // INSERT NOTIFICATION
+    if (!email || !message) {
+
+        alert(
+            "Please enter both email and message."
+        );
+
+        return;
+    }
+
+    // SAVE NOTIFICATION
 
     const { data, error } =
     await client
@@ -33,7 +45,7 @@ async function sendNotification() {
     ])
     .select();
 
-    if(error) {
+    if (error) {
 
         alert(error.message);
 
@@ -43,10 +55,13 @@ async function sendNotification() {
     const notificationId =
     data[0].id;
 
-    // SEND EMAIL
-
     try {
 
+        console.log(
+            "Sending email to:",
+            email
+        );
+        alert("Sending to: " + email);
         await emailjs.send(
 
             "service_14oof04",
@@ -54,42 +69,50 @@ async function sendNotification() {
             "template_510vigr",
 
             {
-                email: email,
+                to_email: email,
                 message: message
             }
 
         );
-
-        // UPDATE STATUS
 
         await client
         .from("notifications")
         .update({
             status: "SENT"
         })
-        .eq("id", notificationId);
+        .eq(
+            "id",
+            notificationId
+        );
 
         alert(
             "Notification Sent Successfully"
         );
 
-    } catch(err) {
+        document.getElementById(
+            "email"
+        ).value = "";
 
-        // UPDATE FAILED STATUS
+        document.getElementById(
+            "message"
+        ).value = "";
+
+    } catch (err) {
+
+        console.error(err);
 
         await client
         .from("notifications")
         .update({
             status: "FAILED"
         })
-        .eq("id", notificationId);
+        .eq(
+            "id",
+            notificationId
+        );
 
         alert(
             "Email sending failed"
         );
-
     }
-
 }
-
-
